@@ -1,6 +1,7 @@
-NP=1
+NP=6
 LOCDIR=3d
 LIB = -L$(CUDA_INSTALL_PATH)/lib64 -L$(SDK_INSTALL_PATH)/lib -lcudart -lGL -lGLU -lcutil_x86_64 -lstdc++
+PETSC_DIR=/home/user/Dropbox/FLOWResearch/OtherCodes/petsc3.4.5
 
 cpu: main.o rbf_interpolation.o vorticity_evaluation.o mpi_range.o matmult.o
 	${CLINKER} -o main $? ${PETSC_SNES_LIB}

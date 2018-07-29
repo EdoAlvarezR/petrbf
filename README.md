@@ -18,3 +18,28 @@ error tolerance of 10e−15) on 1024 processors of a Blue Gene/L (700 MHz PowerP
 See the paper [PetRBF--A parallel O(N) algorithm for radial basis function interpolation](http://arxiv.org/abs/0909.5413) by Rio Yokota, L A Barba, Matthew G Knepley, and visit [The Barba Group page](http://lorenabarba.com/) for more information. A [summary of this project](http://www.bu.edu/tech/support/research/visualization/gallery/petrbf/) is also available among the Boston University research computing briefs.
 
 > We distribute this code under the MIT License, giving potential users the greatest freedom possible. We do, however, request fellow scientists that if they use our codes in research, they kindly include us in the acknowledgement of their papers. We do not request gratuitous citations; only cite our articles if you deem it warranted.
+
+
+
+# Installation
+
+I've found two older versions of PETSc that seem to work with PetBRF
+
+## PETSc v3.5
+
+ Compile PETSc v3.5, and modify the following line from both `2d/rbf_interpolation.cxx` and `3d/rbf_interpolation.cxx`:
+```c++
+ierr = KSPSetOperators(ksp,M,P,DIFFERENT_NONZERO_PATTERN);CHKERRQ(ierr);
+```
+to
+```c++
+ierr = KSPSetOperators(ksp,M,P);CHKERRQ(ierr);
+```
+## PETSc v3.4.5
+No modifications to PetRBF are required.
+
+
+I haven't done extensive testing, but `make cpu` compiles and tests with no problem.
+
+ps: I tried compiling PetRBF with both PETSc v3.4 and v3.3 and none of them worked. Only v3.5 with that fix does it, and v3.4.5.
+ps2: To build an older version of PETSc, clone the PETSc repo (`git clone https://bitbucket.org/petsc/petsc.git`), checkout the version (*e.g.,* `git checkout v3.5`), run the configure script (`./configure`) and follow its instructions. When compiling PetRBF you'll have to define PETSC_DIR pointing to the build of PETSc.
